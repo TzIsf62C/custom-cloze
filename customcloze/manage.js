@@ -4,8 +4,15 @@
 import * as db from "./db.js";
 
 const SAMPLE_FILES = [
-  { filename: "English.csv",             label: "English" },
+  { filename: "Arabic.csv",              label: "Arabic" },
+  { filename: "Chinese_Simplified.csv",  label: "Chinese Simplified" },
   { filename: "Chinese_Traditional.csv", label: "Chinese Traditional" },
+  { filename: "English.csv",             label: "English" },
+  { filename: "French.csv",              label: "French" },
+  { filename: "Hindi.csv",               label: "Hindi" },
+  { filename: "Korean.csv",              label: "Korean" },
+  { filename: "Spanish.csv",             label: "Spanish" },
+  { filename: "Thai.csv",                label: "Thai" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -223,10 +230,10 @@ async function renderSampleButtons() {
     try {
       const response = await fetch(`samples/${filename}`);
       const text = await response.text();
-      const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+      const parsed = Papa.parse(text, { header: false, skipEmptyLines: true });
       csvWords = parsed.data
-        .filter(r => r.word && r.category)
-        .map(r => ({ word: r.word.trim(), gramCat: r.category.trim(), rawSentences: r.sentences || "" }));
+        .filter(r => r[0] && r[1])
+        .map(r => ({ word: r[0].trim(), gramCat: r[1].trim(), rawSentences: r[2] || "" }));
     } catch {
       const btn = document.createElement("button");
       btn.textContent = `⚠️ Failed to load ${label}`;

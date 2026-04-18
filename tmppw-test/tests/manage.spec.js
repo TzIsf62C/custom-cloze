@@ -194,6 +194,30 @@ nocat,,Missing category field.`;
 });
 
 test.describe("Manage screen — samples", () => {
+  test("all 9 sample language buttons are visible", async ({ page }) => {
+    await goToManage(page);
+    await page.click("#tab-samples");
+    await page.waitForSelector("#sample-buttons button");
+
+    const expectedLabels = [
+      "Arabic",
+      "Chinese Simplified",
+      "Chinese Traditional",
+      "English",
+      "French",
+      "Hindi",
+      "Korean",
+      "Spanish",
+      "Thai",
+    ];
+
+    await expect(page.locator("#sample-buttons button")).toHaveCount(expectedLabels.length);
+
+    for (const label of expectedLabels) {
+      await expect(page.locator("#sample-buttons")).toContainText(label);
+    }
+  });
+
   test("English sample import button is visible before import", async ({ page }) => {
     await goToManage(page);
     await page.click("#tab-samples");
