@@ -352,7 +352,10 @@ async function refreshGramcatSelect() {
   const current = select.value;
 
   // Build fresh options — keep built-in defaults even if DB is empty
-  const defaultCats = ["Verb", "Adjective", "Adverb", "Noun", "Phrase"];
+  const defaultCats = [
+    "Adjective", "Adposition", "Adverb", "Auxiliary Verb", "Classifier",
+    "Conjunction", "Determiner", "Interjection", "Noun", "Particle", "Pronoun", "Verb",
+  ];
   const allCats = [...new Set([...defaultCats, ...categories])].sort();
 
   select.innerHTML = "";
