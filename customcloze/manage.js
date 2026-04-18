@@ -242,9 +242,17 @@ async function renderSampleButtons() {
       continue;
     }
 
-    // Count how many DB words match any CSV entry (word + gramCat exact match)
-    const csvPairs = new Set(csvWords.map(w => `${w.word}|${w.gramCat}`));
-    const matchingDbWords = allDbWords.filter(w => csvPairs.has(`${w.word}|${w.gramCat}`));
+    // Count how many DB words match any CSV entry (word + gramCat + first sentence)
+    // Including the first sentence prevents false matches for words that are
+    // spelled identically across languages (e.g. "bien", "venir" in Spanish/French).
+    const csvPairs = new Set(csvWords.map(w => {
+      const firstSentence = w.rawSentences.split("|")[0].trim();
+      return `${w.word}|${w.gramCat}|${firstSentence}`;
+    }));
+    const matchingDbWords = allDbWords.filter(w => {
+      const firstSentence = (w.sentences[0] || "").trim();
+      return csvPairs.has(`${w.word}|${w.gramCat}|${firstSentence}`);
+    });
     const count = matchingDbWords.length;
 
     const btn = document.createElement("button");
