@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CustomCloze</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- External libraries loaded before any module code so they are available as globals -->
+  <script src="https://unpkg.com/dexie/dist/dexie.min.js"></script>
+  <script src="https://unpkg.com/papaparse/papaparse.min.js"></script>
+</head>
+<body class="phase-idle">
+
+  <!-- ====================================================================
+       NAVIGATION — fixed to screen bottom; hidden during phase-active/graded
+  ===================================================================== -->
+  <nav id="main-nav">
+    <button id="nav-practice">Practice</button>
+    <button id="nav-manage">Manage Words</button>
+  </nav>
+
+  <!-- ====================================================================
+       SCREEN: ACTIVITY (Practice)
+  ===================================================================== -->
+  <section id="screen-activity" class="screen active">
+
+    <!-- ── Idle phase ─────────────────────────────────── -->
+    <div id="idle-view" class="idle-only">
+      <h1>CustomCloze</h1>
+      <p>Fill-in-the-blank language practice.</p>
+
+      <label for="cat-select">Category</label>
+      <select id="cat-select"></select>
+
+      <p id="no-words-msg" style="display:none">
+        No words found. <a href="#" id="go-manage-link">Add words</a> to get started.
+      </p>
+
+      <button id="start-btn">Start Session</button>
+    </div>
+
+    <!-- ── Active phase ───────────────────────────────── -->
+    <div id="active-view" class="active-only">
+      <div id="sentence-list"></div>
+
+      <div id="word-bank-bar">
+        <div id="word-bank-controls">
+          <button id="back-btn-active">← Back</button>
+          <button id="check-btn" disabled>Check Answers</button>
+        </div>
+        <div id="chip-area"></div>
+      </div>
+    </div>
+
+    <!-- ── Graded phase ───────────────────────────────── -->
+    <div id="graded-view" class="graded-only">
+      <div id="graded-sentence-list"></div>
+
+      <div id="graded-controls">
+        <button id="back-btn-graded">← Back</button>
+        <span id="score-display"></span>
+        <button id="next-btn">Next →</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ====================================================================
+       SCREEN: MANAGE
+  ===================================================================== -->
+  <section id="screen-manage" class="screen">
+
+    <h1>Manage Words</h1>
+
+    <!-- Tab buttons -->
+    <div id="manage-tabs">
+      <button id="tab-manual">Manual Entry</button>
+      <button id="tab-csv">CSV Upload</button>
+      <button id="tab-samples">Samples</button>
+    </div>
+
+    <!-- ── Manual Entry panel ─────────────────────────── -->
+    <div id="panel-manual" class="manage-panel">
+
+      <label for="word-input">Word</label>
+      <input type="text" id="word-input" placeholder="e.g. achieve" />
+
+      <label for="gramcat-select">Category</label>
+      <select id="gramcat-select">
+        <option value="Verb">Verb</option>
+        <option value="Adjective">Adjective</option>
+        <option value="Adverb">Adverb</option>
+        <option value="Noun">Noun</option>
+        <option value="Phrase">Phrase</option>
+      </select>
+
+      <label>
+        <input type="checkbox" id="custom-cat-toggle" />
+        Use custom category
+      </label>
+      <input type="text" id="custom-cat-input" placeholder="Custom category name" style="display:none" />
+
+      <div id="sentence-format-hint">
+        Wrap the target word form in <strong>(parentheses)</strong>.<br />
+        Example: <em>She finally (achieved) her goal.</em>
+      </div>
+
+      <label>Sentences</label>
+      <div id="sentences-container">
+        <div class="sentence-row">
+          <input type="text" class="sentence-input" placeholder="She finally (achieved) her goal." />
+          <button class="remove-sentence-btn" disabled>×</button>
+        </div>
+      </div>
+
+      <button id="add-sentence-btn">+ Add sentence</button>
+      <button id="save-word-btn">Save Word</button>
+      <p id="save-status"></p>
+
+    </div>
+
+    <!-- ── CSV Upload panel ───────────────────────────── -->
+    <div id="panel-csv" class="manage-panel">
+
+      <div id="drop-zone">
+        Drop a CSV file here, or click to choose
+        <input type="file" id="csv-file-input" accept=".csv" />
+      </div>
+
+      <p id="csv-status"></p>
+
+    </div>
+
+    <!-- ── Samples panel ──────────────────────────────── -->
+    <div id="panel-samples" class="manage-panel">
+      <p>Import or remove sample word sets.</p>
+      <div id="sample-buttons"></div>
+    </div>
+
+    <!-- ── Saved words list (always visible on manage screen) -->
+    <hr />
+    <h2>Saved Words</h2>
+    <div id="saved-words-list"></div>
+
+  </section>
+
+  <!-- Entry point module -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

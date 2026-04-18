@@ -1,0 +1,499 @@
+/* style.css — All styles for CustomCloze. Mobile-first. */
+
+/* ============================================================
+   Base
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #f9fafb;
+  color: #111827;
+}
+
+/* ============================================================
+   Max-width centering (all content)
+   ============================================================ */
+#screen-activity,
+#screen-manage {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px 16px 80px; /* bottom padding leaves room for #main-nav */
+}
+
+/* ============================================================
+   Screen show / hide
+   ============================================================ */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ============================================================
+   Phase-gated sections: hidden by default
+   ============================================================ */
+.idle-only,
+.active-only,
+.graded-only { display: none; }
+
+body.phase-idle   .idle-only   { display: block; }
+body.phase-active .active-only { display: block; }
+body.phase-graded .graded-only { display: block; }
+
+/* ============================================================
+   Navigation — fixed bottom; hidden during in-session phases
+   ============================================================ */
+#main-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding: 8px 16px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  z-index: 50;
+}
+
+#main-nav button {
+  flex: 1;
+  max-width: 200px;
+}
+
+body.phase-active #main-nav,
+body.phase-graded #main-nav { display: none; }
+
+/* ============================================================
+   Fixed word bank bar
+   ============================================================ */
+#word-bank-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding: 8px;
+  z-index: 40;
+}
+
+#word-bank-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+#word-bank-controls button {
+  flex: 1;
+}
+
+#chip-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ============================================================
+   Graded controls bar
+   ============================================================ */
+#graded-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+#score-display {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* ============================================================
+   Buttons — universal touch targets
+   ============================================================ */
+button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+button:not(:disabled):hover {
+  background: #f3f4f6;
+}
+
+/* Primary action buttons */
+#start-btn,
+#check-btn,
+#next-btn,
+#save-word-btn {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+#start-btn:not(:disabled):hover,
+#check-btn:not(:disabled):hover,
+#next-btn:not(:disabled):hover,
+#save-word-btn:not(:disabled):hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+/* ============================================================
+   Sentence cards
+   ============================================================ */
+.sentence-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+/* ============================================================
+   Blank buttons
+   ============================================================ */
+.blank-btn {
+  display: inline-block;
+  min-height: 36px;
+  min-width: 64px;
+  padding: 4px 10px;
+  margin: 0 2px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  vertical-align: middle;
+
+  /* Default: empty blank */
+  border: 2px dashed #9ca3af;
+  color: #9ca3af;
+  background: transparent;
+}
+
+.blank-btn.filled {
+  border: 2px solid #2563eb;
+  color: #1e40af;
+  background: #eff6ff;
+}
+
+.blank-btn.correct {
+  border: 2px solid #16a34a;
+  color: #14532d;
+  background: #f0fdf4;
+}
+
+.blank-btn.incorrect {
+  border: 2px solid #dc2626;
+  color: #7f1d1d;
+  background: #fef2f2;
+}
+
+/* Graded blanks are not interactive */
+.blank-btn.graded {
+  cursor: default;
+}
+
+/* Reveal panel under an incorrect blank */
+.correct-answer-reveal {
+  font-size: 0.85rem;
+  color: #16a34a;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   Chip buttons
+   ============================================================ */
+.chip {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.chip.used {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Idle screen
+   ============================================================ */
+#idle-view h1 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+
+#idle-view p {
+  margin-bottom: 16px;
+  color: #6b7280;
+}
+
+#idle-view label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+#cat-select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  background: #ffffff;
+}
+
+#start-btn {
+  width: 100%;
+}
+
+#no-words-msg {
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+#no-words-msg a {
+  color: #2563eb;
+}
+
+/* ============================================================
+   Manage screen
+   ============================================================ */
+#screen-manage h1 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+#screen-manage h2 {
+  font-size: 1.1rem;
+  margin: 16px 0 8px;
+}
+
+#manage-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+#manage-tabs button {
+  flex: 1;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+  background: #f9fafb;
+}
+
+#manage-tabs button.active-tab {
+  background: #ffffff;
+  border-bottom: 2px solid #2563eb;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Tab panels */
+.manage-panel { display: none; }
+.manage-panel.active { display: block; }
+
+/* Form elements inside manage panel */
+.manage-panel label {
+  display: block;
+  font-weight: 500;
+  margin: 12px 0 4px;
+}
+
+.manage-panel input[type="text"],
+.manage-panel select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  background: #ffffff;
+  font-family: inherit;
+}
+
+/* Sentence format hint */
+#sentence-format-hint {
+  background: #fffbeb;
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 0.85rem;
+  margin: 12px 0;
+}
+
+/* Sentence rows */
+.sentence-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+  align-items: center;
+}
+
+.sentence-row .sentence-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.sentence-row .remove-sentence-btn {
+  min-width: 36px;
+  min-height: 36px;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+
+#add-sentence-btn {
+  margin-top: 6px;
+  margin-bottom: 12px;
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+#save-word-btn {
+  width: 100%;
+  margin-top: 8px;
+}
+
+#save-status {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  min-height: 1.2em;
+  color: #16a34a;
+}
+
+#save-status.error {
+  color: #dc2626;
+}
+
+/* CSV drop zone */
+#drop-zone {
+  border: 2px dashed #9ca3af;
+  border-radius: 8px;
+  padding: 32px 16px;
+  text-align: center;
+  color: #6b7280;
+  cursor: pointer;
+  position: relative;
+  margin-top: 12px;
+}
+
+#drop-zone.drag-over {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+#csv-file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+#csv-status {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+/* Sample buttons */
+#sample-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+#sample-buttons button {
+  text-align: left;
+}
+
+/* Saved words list */
+#saved-words-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.word-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.word-text {
+  font-weight: 600;
+  flex: 1;
+}
+
+.gramcat-badge {
+  background: #e0e7ff;
+  color: #3730a3;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.sentence-count {
+  color: #6b7280;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.delete-word-btn {
+  min-height: 36px;
+  min-width: 36px;
+  padding: 4px 8px;
+  border-color: #fca5a5;
+  background: #fff1f2;
+  font-size: 0.95rem;
+}
+
+.delete-word-btn:not(:disabled):hover {
+  background: #fee2e2;
+}
+
+/* Checkbox row */
+#custom-cat-toggle {
+  vertical-align: middle;
+  margin-right: 4px;
+}
