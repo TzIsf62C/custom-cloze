@@ -1,10 +1,27 @@
 {
-  "name": "Ubuntu with Node",
+  "name": "Ubuntu with Node, Playwright MCP & Copilot Chat",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "24"
     }
   },
-  "postCreateCommand": "mkdir -p tmppw-test && npm install -D playwright@1.59.1 --prefix tmppw-test && cd tmppw-test && npx playwright install chromium && cd .. && sudo apt-get update && sudo apt-get install -y libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2t64 libpango-1.0-0 libpangocairo-1.0-0"
+  "postCreateCommand": "mkdir -p tmppw-test && npm install -D playwright@1.59.1 --prefix tmppw-test && cd tmppw-test && npx playwright install chromium && cd .. && sudo apt-get update && sudo apt-get install -y libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2t64 libpango-1.0-0 libpangocairo-1.0-0",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
+      ],
+      "settings": {
+        "mcp.servers": {
+          "playwright": {
+            "type": "command",
+            "command": "npx",
+            "args": ["@playwright/mcp@latest"]
+          }
+        }
+      }
+    }
+  }
 }
