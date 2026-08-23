@@ -20,11 +20,24 @@ Arabic, Chinese (Simplified & Traditional), English, French, Hindi, Korean, Span
 
 ## Usage
 
-Open `customcloze/index.html` directly in any modern browser, or visit the live app link above.
-
 **To add your own words:**
 1. Go to **Manage Words**
 2. Enter words manually, or import a CSV with columns: `word`, `sentence`, `category`
+
+
+### Running a Local Live Server
+
+From the directory containing the project, run:
+
+```bash
+cd customcloze && python3 -m http.server 8000
+```
+
+Then open the app in your browser at:
+
+`http://localhost:8000`
+
+To stop the server, press `Ctrl+C` in the terminal.
 
 ## Project Structure
 
@@ -46,8 +59,6 @@ Loaded from CDN — no installation needed:
 
 - [Dexie.js](https://dexie.org/) — IndexedDB wrapper
 - [PapaParse](https://www.papaparse.com/) — CSV parsing
-
-
 
 ## Deployment
 
