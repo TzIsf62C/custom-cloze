@@ -47,6 +47,8 @@ Loaded from CDN — no installation needed:
 - [Dexie.js](https://dexie.org/) — IndexedDB wrapper
 - [PapaParse](https://www.papaparse.com/) — CSV parsing
 
+
+
 ## Deployment
 
 This repo deploys automatically to GitHub Pages via GitHub Actions on every push to `main`. See [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
